@@ -12,12 +12,12 @@ def hill_climb(problem, max_iters=np.inf, restarts=0, init_state=None, curve=Fal
         : código: `TSPOpt ()`. 
     max_iters: int, default: np.inf 
         Número máximo de iterações do algoritmo para cada reinicialização. 
-    reinicia: int, padrão: 0 
+    restart: int, padrão: 0 
         Número de reinicializações aleatórias. 
     init_state: array, padrão: Nenhum 
         1-D array Numpy contendo o estado inicial do algoritmo. 
         Se: code: `None`, então um estado aleatório é usado. 
-    curva: bool, padrão: Falso 
+    curve: bool, padrão: Falso 
         Booleano para manter os valores de adequação de uma curva. 
         Se: code: `False`, nenhuma curva é armazenada. 
         Se: code: `True`, um histórico de valores de aptidão é fornecido como um 
@@ -92,4 +92,36 @@ def hill_climb(problem, max_iters=np.inf, restarts=0, init_state=None, curve=Fal
         
         iters = 0
 
-        while iters
+        while iters < max_iters:
+            iters += 1
+
+            # Encontre os vizinhos e determine o melhor vizinho
+            problem.find_neighbors() #find_neighbors -> função mlrose do DiscreteOpt
+            next_state = problem.best_neighbor()
+            next_fitness = problem.eval_fitness(next_state) #Avalie a adequação de um vetor de estado. 
+
+            # Se o melhor vizinho for uma melhoria, mova para esse estado 
+            if next_fitness > problem.get_fitness(): #Retorna a aptidão do vetor de estado atual.
+                problem.set_state(next_state) # Altere o vetor de estado atual para um valor especificado 
+        #e obtenha sua adequação.
+                attempts = 0
+            
+            else:
+                attempts +=1
+            
+            if curve:
+                fitness_curve.append(problem.get_fitness())
+            
+        # Atualizar melhor estado e melhor condição física
+        if problem.get_fitness() > best_fitness:
+            best_fitness = problem.get_fitness()
+            best_state = problem.get_state()
+
+    best_fitness = problem.get_maximize()*best_fitness #Retorna o multiplicador de maximização.
+
+    if curve:
+        return best_state, best_fitness, np.asarray(fitness_curve)
+
+    return best_state, best_fitness
+
+        
