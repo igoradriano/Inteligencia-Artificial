@@ -1,0 +1,11 @@
+1) Naive Bayes - Baseado em probabilidade / Orange
+2) Árvore de Decisão
+3) Aprendizagem por regras
+4) Aprendizagem Baseada em Instâncias - kNN
+5) Aprendizagem de Máquina de vetores de suporte - SVM
+6) Regressão Logística
+7) K-Fold Cross Validation (Validação cruzada)
+
+Classificação de Imagens:
+Options -> add ons -> Image Analytics->
+Depois com botão direito na Área de trabalho do orange selecione Import Images
